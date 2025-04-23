@@ -12,6 +12,17 @@ describe('Central de Atendimento ao Cliente TAT', () => {
       .type('Adorei a experiência de fazer curso com vocês!').should('have.value', 'Adorei a experiência de fazer curso com vocês!')
   };
 
+  const preencherFormEmailInvalido = () => {
+    cy.get('#firstName')
+      .type('João')
+    cy.get('#lastName')
+      .type('Santos Azevedo')
+    cy.get('#email')
+      .type('joaoazevedo123@').should('have.value','joaoazevedo123@')
+    cy.get('#open-text-area')
+      .type('Adorei a experiência de fazer curso com vocês!')
+  };
+
 
   it('Caso de teste 1 - Validar o título da aplicação', () => {
     cy.title()
@@ -20,7 +31,6 @@ describe('Central de Atendimento ao Cliente TAT', () => {
 
   it('Caso de teste 2 - Validar preenchimento dos campos do formulário', () => {
     preencherFormulario()
-
   })
 
   it('Caso de teste 3 - Validar envio do formulário', () => {
@@ -37,10 +47,9 @@ describe('Central de Atendimento ao Cliente TAT', () => {
   })
 
   it('Caso de teste 5 - Validar preenchimento do campo email com formato inválido', () => {
-    const emailInvalido = 'joaoazevedo@' 
-
-    cy.get('#email').type(emailInvalido)
-      .should('have.value', emailInvalido)
+     
+    preencherFormEmailInvalido()
+    
     cy.contains('button', 'Enviar').click()
 
     cy.get('.error').should('be.visible')
